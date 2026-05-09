@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
-Host: evacuatordon.ru
-Sitemap: https://evacuatordon.ru/sitemap.xml
+Host: evakuatordn.ru
+Sitemap: https://evakuatordn.ru/sitemap.xml
