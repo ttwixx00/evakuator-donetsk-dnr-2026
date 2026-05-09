@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+  <title>Эвакуатор Донецк</title>
+  <rect width="128" height="128" rx="28" fill="#061218"/>
+  <rect x="20" y="18" width="88" height="13" rx="6.5" fill="#ff0033"/>
+  <rect x="20" y="96" width="88" height="14" rx="7" fill="#ff0033"/>
+  <path d="M29 74h53l16-20H79l-12 10H48l-6-15H29z" fill="#ffffff"/>
+  <path d="M45 40h16c6 0 11 5 12 15H42c1-8 2-15 3-15z" fill="#b0f1ec"/>
+  <rect x="57" y="70" width="32" height="6" rx="3" fill="#ff0033"/>
+  <circle cx="48" cy="86" r="10" fill="#061218"/>
+  <circle cx="88" cy="86" r="10" fill="#061218"/>
+  <circle cx="48" cy="86" r="5" fill="#ff0033"/>
+  <circle cx="88" cy="86" r="5" fill="#ff0033"/>
+</svg>
