@@ -1213,5 +1213,17 @@
       });
     });
   </script>
+  <script>
+    document.querySelectorAll('a[href^="tel:"]').forEach((link) => {
+      link.addEventListener("click", () => {
+        if (typeof ym === "function") {
+          ym(109136230, "reachGoal", "phone_click", {
+            phone: link.getAttribute("href").replace("tel:", ""),
+            text: link.textContent.trim()
+          });
+        }
+      });
+    });
+  </script>
 </body>
 </html>
