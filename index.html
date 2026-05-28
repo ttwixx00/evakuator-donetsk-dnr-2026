@@ -16,21 +16,21 @@
   <!-- /Yandex.Metrika counter -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Эвакуатор Донецк и ДНР 24/7 | +7 (949) 499-94-45</title>
-  <meta name="description" content="Эвакуатор в Донецке и по всей ДНР 24/7. Легковые авто, кроссоверы, спецтехника до 5 тонн, эвакуация после ДТП. Один звонок: +7 (949) 499-94-45.">
+  <title>Эвакуатор Донецк и ДНР 24/7</title>
+  <meta name="description" content="Эвакуатор в Донецке и по всей ДНР 24/7. Легковые авто, кроссоверы, спецтехника до 5 тонн, эвакуация после ДТП. Один звонок: Показать номер.">
   <meta name="robots" content="index,follow">
   <meta name="theme-color" content="#0a0a0a">
   <link rel="canonical" href="https://evakuatordn.ru/">
   <meta property="og:locale" content="ru_RU">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Эвакуатор Донецк и ДНР 24/7">
-  <meta property="og:description" content="Быстрый выезд, честная стоимость до выезда, аккуратная погрузка. Телефон: +7 (949) 499-94-45.">
+  <meta property="og:description" content="Быстрый выезд, честная стоимость до выезда, аккуратная погрузка. Телефон: Показать номер.">
   <meta property="og:url" content="https://evakuatordn.ru/">
   <meta property="og:site_name" content="Эвакуатор Донецк и ДНР">
   <meta property="og:image" content="assets/client-logo.png">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Эвакуатор Донецк и ДНР 24/7">
-  <meta name="twitter:description" content="Один звонок, без форм и заявок. +7 (949) 499-94-45.">
+  <meta name="twitter:description" content="Один звонок, без форм и заявок. Показать номер.">
   <link rel="icon" href="favicon.ico" sizes="any">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <link rel="icon" type="image/png" sizes="120x120" href="favicon-120x120.png">
@@ -47,7 +47,6 @@
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
       "name": "Эвакуатор Донецк и ДНР 24/7",
-      "telephone": "+79494999445",
       "areaServed": ["Донецк", "ДНР"],
       "openingHours": "Mo-Su 00:00-23:59",
       "description": "Круглосуточная служба эвакуации автомобилей в Донецке и по всей ДНР.",
@@ -110,6 +109,36 @@
 
     button {
       font: inherit;
+    }
+
+    button.phone-gate {
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .phone-gate-status {
+      display: block;
+      margin-top: 0.25rem;
+      font-family: "Barlow", Arial, sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      line-height: 1.2;
+      text-transform: none;
+      opacity: 0.88;
+    }
+
+    .phone-gate.is-blocked {
+      opacity: 0.72;
+    }
+
+    .footer-phone {
+      display: inline-flex;
+      width: max-content;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      font-weight: 800;
     }
 
     p,
@@ -930,7 +959,7 @@
         <a href="#faq">FAQ</a>
       </nav>
 
-      <a class="call-link" href="tel:+79494999445">+7 (949) 499-94-45</a>
+      <button type="button" class="call-link phone-gate js-phone-gate" data-phone-gate="true" data-phone-label="call">Позвонить<span class="phone-gate-status" aria-live="polite"></span></button>
     </div>
   </header>
 
@@ -942,7 +971,7 @@
           <h1>Эвакуатор Донецк ДНР<span class="cursor" aria-hidden="true"></span></h1>
           <p class="hero-lead">Быстрый выезд по Донецку и всей ДНР. Один звонок диспетчеру, без онлайн-форм: аккуратно погрузим исправный или повреждённый автомобиль и заранее озвучим стоимость.</p>
           <div class="hero-actions">
-            <a class="btn btn-primary" href="tel:+79494999445">Позвонить сейчас</a>
+            <button type="button" class="btn btn-primary phone-gate js-phone-gate" data-phone-gate="true" data-phone-label="call">Позвонить<span class="phone-gate-status" aria-live="polite"></span></button>
             <a class="btn btn-secondary" href="#services">Смотреть услуги</a>
           </div>
         </div>
@@ -1170,7 +1199,7 @@
       <div class="wrap cta-inner">
         <p class="kicker">Нужен эвакуатор сейчас?</p>
         <h2>Звоните диспетчеру</h2>
-        <a class="final-phone" href="tel:+79494999445">+7 (949) 499-94-45</a>
+        <button type="button" class="final-phone phone-gate js-phone-gate" data-phone-gate="true" data-phone-label="show">Показать номер<span class="phone-gate-status" aria-live="polite"></span></button>
       </div>
     </section>
   </main>
@@ -1178,11 +1207,11 @@
   <footer class="site-footer">
     <div class="wrap footer-inner">
       <span>Эвакуатор Донецк и ДНР 24/7. Без форм, только прямой звонок.</span>
-      <a href="tel:+79494999445">+7 (949) 499-94-45</a>
+      <button type="button"  class="footer-phone phone-gate js-phone-gate" data-phone-gate="true" data-phone-label="show">Показать номер<span class="phone-gate-status" aria-live="polite"></span></button>
     </div>
   </footer>
 
-  <a class="mobile-call" href="tel:+79494999445">Позвонить: +7 (949) 499-94-45</a>
+  <button type="button" class="mobile-call phone-gate js-phone-gate" data-phone-gate="true" data-phone-label="call">Позвонить<span class="phone-gate-status" aria-live="polite"></span></button>
 
   <script>
     const revealItems = document.querySelectorAll(".reveal");
@@ -1213,17 +1242,6 @@
       });
     });
   </script>
-  <script>
-    document.querySelectorAll('a[href^="tel:"]').forEach((link) => {
-      link.addEventListener("click", () => {
-        if (typeof ym === "function") {
-          ym(109136230, "reachGoal", "phone_click", {
-            phone: link.getAttribute("href").replace("tel:", ""),
-            text: link.textContent.trim()
-          });
-        }
-      });
-    });
-  </script>
+  <script src="antibot-phone.js" defer></script>
 </body>
 </html>

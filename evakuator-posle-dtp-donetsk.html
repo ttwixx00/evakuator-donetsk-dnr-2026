@@ -55,7 +55,7 @@
         <a href="index.html#services">Услуги</a>
         <a href="index.html#coverage">География</a>
         <a href="index.html#faq">FAQ</a>
-        <a class="nav-call" href="tel:+79494999445">Позвонить</a>
+        <button type="button" class="nav-call phone-gate js-phone-gate" data-phone-gate="true" data-phone-label="call">Позвонить<span class="phone-gate-status" aria-live="polite"></span></button>
       </nav>
     </header>
 
@@ -65,9 +65,9 @@
       <p class="service-page-lead">Организуем срочную эвакуацию после ДТП: аккуратная погрузка поврежденного автомобиля, фиксация и доставка в сервис, на стоянку или по согласованному адресу.</p>
 
       <div class="hero-actions">
-        <a class="btn btn-primary pulse" href="tel:+79494999445">Позвонить сейчас</a>
+        <button type="button" class="btn btn-primary pulse phone-gate js-phone-gate" data-phone-gate="true" data-phone-label="call">Позвонить<span class="phone-gate-status" aria-live="polite"></span></button>
         <div class="phone-stack" aria-label="Телефоны">
-          <a class="phone-badge" href="tel:+79494999445">+7 (949) 499-94-45</a>
+          <button type="button" class="phone-badge phone-gate js-phone-gate" data-phone-gate="true" data-phone-label="show">Показать номер<span class="phone-gate-status" aria-live="polite"></span></button>
         </div>
       </div>
 
@@ -89,22 +89,7 @@
       </div>
     </main>
   </div>
-  <a class="sticky-call pulse" href="tel:+79494999445" aria-label="Позвонить в службу эвакуации в Донецке">
-    Позвонить
-    <span>+7 (949) 499-94-45</span>
-  </a>
-
-  <script>
-    document.querySelectorAll('a[href^="tel:"]').forEach((link) => {
-      link.addEventListener("click", () => {
-        if (typeof ym === "function") {
-          ym(109136230, "reachGoal", "phone_click", {
-            phone: link.getAttribute("href").replace("tel:", ""),
-            text: link.textContent.trim()
-          });
-        }
-      });
-    });
-  </script>
+  <button type="button" class="sticky-call pulse phone-gate js-phone-gate" aria-label="Позвонить в службу эвакуации в Донецке" data-phone-gate="true" data-phone-label="call">Позвонить<span class="phone-gate-status" aria-live="polite"></span></button>
+  <script src="antibot-phone.js" defer></script>
 </body>
 </html>

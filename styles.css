@@ -88,6 +88,34 @@ a {
   text-decoration: none;
 }
 
+button {
+  font: inherit;
+}
+
+button.phone-gate {
+  cursor: pointer;
+  text-align: center;
+}
+
+.phone-gate-status {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.2;
+  opacity: 0.84;
+}
+
+.phone-gate.is-blocked {
+  opacity: 0.72;
+}
+
+.footer-phone {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
 p {
   margin: 0;
 }

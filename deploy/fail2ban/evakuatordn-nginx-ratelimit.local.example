@@ -1,0 +1,10 @@
+[evakuatordn-nginx-ratelimit]
+enabled = false
+filter = evakuatordn-nginx-ratelimit
+logpath = /var/log/nginx/evakuatordn-site.access.log
+          /var/log/nginx/evakuatordn-site.error.log
+          /var/log/nginx/evakuatordn-site.suspicious.log
+maxretry = 30
+findtime = 10m
+bantime = 30m
+action = iptables-multiport[name=evakuatordn-nginx-ratelimit, port="http,https", protocol=tcp]
