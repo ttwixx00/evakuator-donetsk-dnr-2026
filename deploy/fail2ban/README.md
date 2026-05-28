@@ -1,6 +1,6 @@
 # Fail2ban preparation for evakuatordn.ru
 
-Fail2ban is enabled on the VPS with a soft jail for repeated Nginx 429 / rate-limit events.
+Fail2ban is enabled on the VPS with a progressive jail for repeated Nginx 429 / rate-limit events.
 
 Install and prepare:
 
@@ -11,11 +11,12 @@ cp /root/evakuatordn-fail2ban/evakuatordn-nginx-ratelimit.conf /etc/fail2ban/fil
 cp /root/evakuatordn-fail2ban/evakuatordn-nginx-ratelimit.local.example /etc/fail2ban/jail.d/evakuatordn-nginx-ratelimit.local
 ```
 
-The jail is intentionally soft:
+The jail is strict for repeated abuse, but still avoids permanent bans because mobile and provider IPs can be shared:
 
-- `maxretry = 10`
+- `maxretry = 3`
 - `findtime = 10m`
-- `bantime = 2h`
+- first ban: `bantime = 2h`
+- repeated bans increase: about 12h, 48h, then up to `bantime.maxtime = 7d`
 - only `http,https` are banned
 - server self-check IP is ignored
 
