@@ -110,6 +110,10 @@ button.phone-gate {
   opacity: 0.72;
 }
 
+.phone-gate.is-pending {
+  cursor: wait;
+}
+
 .footer-phone {
   padding: 0;
   border: 0;

@@ -1,19 +1,20 @@
 (function () {
   const COUNTER_ID = 109136230;
   const PHONE_PARTS = ["+7", "949", "499", "94", "45"];
-  const MIN_WAIT_MS = 8000 + Math.floor(Math.random() * 4001);
+  const PAGE_MIN_WAIT_MS = 1500 + Math.floor(Math.random() * 1001);
+  const REVEAL_DELAY_MS = 3200 + Math.floor(Math.random() * 1001);
   const ATTEMPT_WINDOW_MS = 10 * 60 * 1000;
   const BLOCK_MS = 15 * 60 * 1000;
   const MAX_ATTEMPTS = 5;
-  const STORAGE_KEY = "evdn_phone_gate_v1";
+  const STORAGE_KEY = "evdn_phone_gate_v2";
   const startedAt = Date.now();
   let humanSignal = false;
 
   const labels = {
-    wait: "\u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u043f\u043e\u0434\u043e\u0436\u0434\u0438\u0442\u0435 \u043d\u0435\u0441\u043a\u043e\u043b\u044c\u043a\u043e \u0441\u0435\u043a\u0443\u043d\u0434",
-    action: "\u041f\u0440\u043e\u043a\u0440\u0443\u0442\u0438\u0442\u0435 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0443 \u0438\u043b\u0438 \u0434\u0432\u0438\u0433\u0430\u0439\u0442\u0435 \u043c\u044b\u0448\u044c\u044e",
+    wait: "\u041d\u043e\u043c\u0435\u0440 \u043e\u0442\u043a\u0440\u043e\u0435\u0442\u0441\u044f",
+    pending: "\u041f\u043e\u043a\u0430\u0437\u044b\u0432\u0430\u0435\u043c \u043d\u043e\u043c\u0435\u0440",
     blocked: "\u0421\u043b\u0438\u0448\u043a\u043e\u043c \u043c\u043d\u043e\u0433\u043e \u043f\u043e\u043f\u044b\u0442\u043e\u043a. \u041f\u043e\u043f\u0440\u043e\u0431\u0443\u0439\u0442\u0435 \u043f\u043e\u0437\u0436\u0435",
-    show: "\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c \u043d\u043e\u043c\u0435\u0440",
+    action: "\u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u043f\u043e\u0434\u043e\u0436\u0434\u0438\u0442\u0435 \u043d\u0435\u0441\u043a\u043e\u043b\u044c\u043a\u043e \u0441\u0435\u043a\u0443\u043d\u0434",
     call: "\u041f\u043e\u0437\u0432\u043e\u043d\u0438\u0442\u044c"
   };
 
@@ -89,17 +90,36 @@
   const isPhoneGate = (target) => Boolean(target && target.closest && target.closest("[data-phone-gate]"));
 
   const markHuman = (event) => {
-    if (event && isPhoneGate(event.target)) {
+    if (event && event.isTrusted === false) {
       return;
     }
+
     humanSignal = true;
   };
 
-  ["scroll", "mousemove", "touchstart", "pointermove", "keydown"].forEach((eventName) => {
+  ["scroll", "mousemove", "touchstart", "pointermove", "pointerdown", "keydown"].forEach((eventName) => {
     window.addEventListener(eventName, markHuman, { passive: true, once: true });
   });
 
-  document.addEventListener("click", markHuman, { capture: true, passive: true });
+  document.addEventListener("click", (event) => {
+    if (!isPhoneGate(event.target)) {
+      markHuman(event);
+    }
+  }, { capture: true, passive: true });
+
+  const getTextNode = (button) => Array.from(button.childNodes).find((node) => (
+    node.nodeType === window.Node.TEXT_NODE && node.textContent.trim()
+  ));
+
+  const setButtonLabel = (button, label) => {
+    const textNode = getTextNode(button);
+    if (textNode) {
+      textNode.textContent = label;
+      return;
+    }
+
+    button.insertBefore(document.createTextNode(label), button.firstChild);
+  };
 
   const setMessage = (button, message) => {
     let status = button.querySelector(".phone-gate-status");
@@ -112,13 +132,28 @@
     status.textContent = message;
   };
 
-  const revealAndCall = (button) => {
+  const revealButton = (button, phone, prettyPhone) => {
+    button.classList.remove("is-pending", "is-blocked");
+    button.classList.add("is-revealed");
+    button.removeAttribute("aria-busy");
+    button.setAttribute("aria-label", `${labels.call}: ${prettyPhone}`);
+    button.innerHTML = `<span class="phone-gate-number">${prettyPhone}</span>`;
+    button.dataset.phoneRevealed = "true";
+  };
+
+  const revealAll = () => {
     const phone = getPhoneRaw();
     const prettyPhone = getPhonePretty();
 
-    button.classList.add("is-revealed");
-    button.setAttribute("aria-label", `${labels.call}: ${prettyPhone}`);
-    button.innerHTML = `<span class="phone-gate-number">${prettyPhone}</span>`;
+    document.querySelectorAll("[data-phone-gate]").forEach((button) => {
+      revealButton(button, phone, prettyPhone);
+    });
+
+    return { phone, prettyPhone };
+  };
+
+  const completePhoneAction = (button, shouldDial) => {
+    const { phone } = revealAll();
 
     track("phone_click", {
       phone,
@@ -126,46 +161,77 @@
       button: button.dataset.phoneLabel || button.textContent.trim()
     });
 
-    window.location.href = `tel:${phone}`;
+    if (shouldDial) {
+      window.location.href = `tel:${phone}`;
+    }
+  };
+
+  const scheduleReveal = (button, delay) => {
+    const safeDelay = Math.max(1800, delay);
+    const endsAt = Date.now() + safeDelay;
+
+    button.dataset.phonePending = "true";
+    button.classList.add("is-pending");
+    button.setAttribute("aria-busy", "true");
+    setButtonLabel(button, labels.pending);
+
+    const renderCountdown = () => {
+      const secondsLeft = Math.max(1, Math.ceil((endsAt - Date.now()) / 1000));
+      setMessage(button, `${labels.wait} \u0447\u0435\u0440\u0435\u0437 ${secondsLeft} \u0441\u0435\u043a.`);
+    };
+
+    renderCountdown();
+    const intervalId = window.setInterval(renderCountdown, 250);
+
+    window.setTimeout(() => {
+      window.clearInterval(intervalId);
+      button.dataset.phonePending = "";
+      completePhoneAction(button, button.dataset.phoneLabel !== "show");
+    }, safeDelay);
+  };
+
+  const blockAttempt = (button, reason, params) => {
+    button.classList.add("is-blocked");
+    setMessage(button, reason === "no_human_signal" ? labels.action : labels.blocked);
+    track("antibot_phone_blocked", {
+      reason,
+      page: window.location.pathname,
+      ...(params || {})
+    });
   };
 
   const handlePhoneClick = (event) => {
     const button = event.currentTarget;
     event.preventDefault();
 
+    if (button.dataset.phoneRevealed === "true") {
+      completePhoneAction(button, true);
+      return;
+    }
+
+    if (button.dataset.phonePending === "true") {
+      setMessage(button, "\u0423\u0436\u0435 \u043f\u043e\u043a\u0430\u0437\u044b\u0432\u0430\u0435\u043c, \u043f\u043e\u0434\u043e\u0436\u0434\u0438\u0442\u0435");
+      return;
+    }
+
+    if (event.isTrusted !== false) {
+      humanSignal = true;
+    }
+
+    if (!humanSignal) {
+      blockAttempt(button, "no_human_signal");
+      return;
+    }
+
     const attempt = registerAttempt();
     if (attempt.blocked) {
-      button.classList.add("is-blocked");
-      setMessage(button, labels.blocked);
-      track("antibot_phone_blocked", {
-        reason: attempt.reason,
-        page: window.location.pathname
-      });
+      blockAttempt(button, attempt.reason);
       return;
     }
 
     const elapsed = Date.now() - startedAt;
-    if (elapsed < MIN_WAIT_MS) {
-      setMessage(button, labels.wait);
-      track("antibot_phone_blocked", {
-        reason: "too_fast",
-        elapsed,
-        page: window.location.pathname
-      });
-      return;
-    }
-
-    if (!humanSignal) {
-      setMessage(button, labels.action);
-      track("antibot_phone_blocked", {
-        reason: "no_human_signal",
-        elapsed,
-        page: window.location.pathname
-      });
-      return;
-    }
-
-    revealAndCall(button);
+    const delay = Math.max(REVEAL_DELAY_MS, PAGE_MIN_WAIT_MS - elapsed);
+    scheduleReveal(button, delay);
   };
 
   document.querySelectorAll("[data-phone-gate]").forEach((button) => {
