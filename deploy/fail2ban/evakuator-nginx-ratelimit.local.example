@@ -1,0 +1,15 @@
+[evacuator-nginx-limit]
+enabled = true
+filter = evakuator-nginx-ratelimit
+logpath = /var/log/nginx/evakuator-site.access.log
+          /var/log/nginx/evakuator-site.error.log
+          /var/log/nginx/evakuator-site.suspicious.log
+maxretry = 3
+findtime = 10m
+bantime = 2h
+bantime.increment = true
+bantime.multipliers = 1 6 24 84
+bantime.maxtime = 7d
+bantime.rndtime = 15m
+ignoreip = 127.0.0.1/8 ::1 194.55.236.121
+action = iptables-multiport[name=evacuator-nginx-limit, port="http,https", protocol=tcp]
