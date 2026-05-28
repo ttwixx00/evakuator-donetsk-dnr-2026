@@ -13,9 +13,9 @@ cp /root/evakuatordn-fail2ban/evakuatordn-nginx-ratelimit.local.example /etc/fai
 
 The jail is intentionally soft:
 
-- `maxretry = 30`
+- `maxretry = 10`
 - `findtime = 10m`
-- `bantime = 30m`
+- `bantime = 2h`
 - only `http,https` are banned
 - server self-check IP is ignored
 
