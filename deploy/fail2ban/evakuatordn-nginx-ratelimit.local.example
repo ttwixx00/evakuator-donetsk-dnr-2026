@@ -1,5 +1,5 @@
-[evakuatordn-nginx-ratelimit]
-enabled = false
+[evdn-nginx-limit]
+enabled = true
 filter = evakuatordn-nginx-ratelimit
 logpath = /var/log/nginx/evakuatordn-site.access.log
           /var/log/nginx/evakuatordn-site.error.log
@@ -7,4 +7,5 @@ logpath = /var/log/nginx/evakuatordn-site.access.log
 maxretry = 30
 findtime = 10m
 bantime = 30m
-action = iptables-multiport[name=evakuatordn-nginx-ratelimit, port="http,https", protocol=tcp]
+ignoreip = 127.0.0.1/8 ::1 194.55.236.121
+action = iptables-multiport[name=evdn-nginx-limit, port="http,https", protocol=tcp]
