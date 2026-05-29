@@ -2,7 +2,7 @@
   const COUNTER_ID = 109136230;
   const PHONE_PARTS = ["+7", "949", "499", "94", "45"];
   const PAGE_MIN_WAIT_MS = 1500 + Math.floor(Math.random() * 1001);
-  const REVEAL_DELAY_MS = 3200 + Math.floor(Math.random() * 1001);
+  const REVEAL_DURATION_MS = 4200 + Math.floor(Math.random() * 601);
   const ATTEMPT_WINDOW_MS = 10 * 60 * 1000;
   const BLOCK_MS = 15 * 60 * 1000;
   const MAX_ATTEMPTS = 5;
@@ -11,8 +11,7 @@
   let humanSignal = false;
 
   const labels = {
-    wait: "\u041d\u043e\u043c\u0435\u0440 \u043e\u0442\u043a\u0440\u043e\u0435\u0442\u0441\u044f",
-    pending: "\u041f\u043e\u043a\u0430\u0437\u044b\u0432\u0430\u0435\u043c \u043d\u043e\u043c\u0435\u0440",
+    pending: "\u041e\u0442\u043a\u0440\u044b\u0432\u0430\u0435\u043c \u043d\u043e\u043c\u0435\u0440",
     blocked: "\u0421\u043b\u0438\u0448\u043a\u043e\u043c \u043c\u043d\u043e\u0433\u043e \u043f\u043e\u043f\u044b\u0442\u043e\u043a. \u041f\u043e\u043f\u0440\u043e\u0431\u0443\u0439\u0442\u0435 \u043f\u043e\u0437\u0436\u0435",
     action: "\u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u043f\u043e\u0434\u043e\u0436\u0434\u0438\u0442\u0435 \u043d\u0435\u0441\u043a\u043e\u043b\u044c\u043a\u043e \u0441\u0435\u043a\u0443\u043d\u0434",
     call: "\u041f\u043e\u0437\u0432\u043e\u043d\u0438\u0442\u044c"
@@ -132,28 +131,39 @@
     status.textContent = message;
   };
 
-  const revealButton = (button, phone, prettyPhone) => {
+  const buildAnimatedPhone = (prettyPhone, duration) => {
+    const chars = Array.from(prettyPhone);
+    const step = duration / Math.max(chars.length, 1);
+
+    return chars.map((char, index) => {
+      const delay = Math.round(index * step);
+      const safeChar = char === " " ? "&nbsp;" : char;
+      return `<span class="phone-gate-char" style="--phone-char-delay:${delay}ms">${safeChar}</span>`;
+    }).join("");
+  };
+
+  const revealButton = (button, phone, prettyPhone, animated) => {
     button.classList.remove("is-pending", "is-blocked");
     button.classList.add("is-revealed");
     button.removeAttribute("aria-busy");
     button.setAttribute("aria-label", `${labels.call}: ${prettyPhone}`);
-    button.innerHTML = `<span class="phone-gate-number">${prettyPhone}</span>`;
+    button.innerHTML = `<span class="phone-gate-number${animated ? " is-animating" : ""}">${animated ? buildAnimatedPhone(prettyPhone, REVEAL_DURATION_MS) : prettyPhone}</span>`;
     button.dataset.phoneRevealed = "true";
   };
 
-  const revealAll = () => {
+  const revealAll = (animated) => {
     const phone = getPhoneRaw();
     const prettyPhone = getPhonePretty();
 
     document.querySelectorAll("[data-phone-gate]").forEach((button) => {
-      revealButton(button, phone, prettyPhone);
+      revealButton(button, phone, prettyPhone, animated);
     });
 
     return { phone, prettyPhone };
   };
 
-  const completePhoneAction = (button, shouldDial) => {
-    const { phone } = revealAll();
+  const completePhoneAction = (button, shouldDial, animated) => {
+    const { phone } = revealAll(animated);
 
     track("phone_click", {
       phone,
@@ -167,26 +177,25 @@
   };
 
   const scheduleReveal = (button, delay) => {
-    const safeDelay = Math.max(1800, delay);
-    const endsAt = Date.now() + safeDelay;
+    const safeDelay = Math.max(0, delay);
+    const shouldDial = button.dataset.phoneLabel !== "show";
 
     button.dataset.phonePending = "true";
     button.classList.add("is-pending");
     button.setAttribute("aria-busy", "true");
     setButtonLabel(button, labels.pending);
-
-    const renderCountdown = () => {
-      const secondsLeft = Math.max(1, Math.ceil((endsAt - Date.now()) / 1000));
-      setMessage(button, `${labels.wait} \u0447\u0435\u0440\u0435\u0437 ${secondsLeft} \u0441\u0435\u043a.`);
-    };
-
-    renderCountdown();
-    const intervalId = window.setInterval(renderCountdown, 250);
+    setMessage(button, "");
 
     window.setTimeout(() => {
-      window.clearInterval(intervalId);
       button.dataset.phonePending = "";
-      completePhoneAction(button, button.dataset.phoneLabel !== "show");
+      completePhoneAction(button, false, true);
+
+      if (shouldDial) {
+        window.setTimeout(() => {
+          const phone = getPhoneRaw();
+          window.location.href = `tel:${phone}`;
+        }, REVEAL_DURATION_MS + 160);
+      }
     }, safeDelay);
   };
 
@@ -205,7 +214,7 @@
     event.preventDefault();
 
     if (button.dataset.phoneRevealed === "true") {
-      completePhoneAction(button, true);
+      completePhoneAction(button, true, false);
       return;
     }
 
@@ -230,7 +239,7 @@
     }
 
     const elapsed = Date.now() - startedAt;
-    const delay = Math.max(REVEAL_DELAY_MS, PAGE_MIN_WAIT_MS - elapsed);
+    const delay = Math.max(0, PAGE_MIN_WAIT_MS - elapsed);
     scheduleReveal(button, delay);
   };
 

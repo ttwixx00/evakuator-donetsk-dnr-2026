@@ -114,6 +114,28 @@ button.phone-gate {
   cursor: wait;
 }
 
+.phone-gate-number {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: center;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+.phone-gate-number.is-animating {
+  gap: 0.01em;
+}
+
+.phone-gate-char {
+  display: inline-block;
+  min-width: 0.28em;
+  opacity: 0;
+  transform: translateY(0.45em) scale(0.92);
+  filter: blur(0.25em);
+  animation: phoneCharReveal 0.48s ease-out forwards;
+  animation-delay: var(--phone-char-delay, 0ms);
+}
+
 .footer-phone {
   padding: 0;
   border: 0;
@@ -1309,6 +1331,14 @@ p {
 
   100% {
     background-position: 0 0, -80% 0;
+  }
+}
+
+@keyframes phoneCharReveal {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
   }
 }
 
