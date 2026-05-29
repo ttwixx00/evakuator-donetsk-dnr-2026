@@ -716,21 +716,46 @@
 
     .final-cta h2 {
       font-family: "Bebas Neue", Impact, sans-serif;
-      font-size: clamp(3.2rem, 14vw, 8.5rem);
-      line-height: 0.86;
+      font-size: clamp(3.2rem, 13vw, 8rem);
+      line-height: 0.88;
       text-transform: uppercase;
     }
 
     .final-phone {
       display: inline-flex;
-      width: max-content;
-      max-width: 100%;
-      color: var(--text);
+      align-items: center;
+      justify-content: center;
+      width: min(100%, 33rem);
+      min-height: 5.35rem;
+      padding: 1rem 1.25rem;
+      border: 2px solid rgba(255, 255, 255, 0.9);
+      background: #050505;
+      color: #ffffff;
       font-family: "Barlow Condensed", Arial, sans-serif;
-      font-size: clamp(2rem, 8vw, 4.8rem);
+      font-size: clamp(1.75rem, 7vw, 4.2rem);
       font-weight: 800;
-      line-height: 1;
-      overflow-wrap: anywhere;
+      line-height: 0.95;
+      text-align: center;
+      text-transform: uppercase;
+      box-shadow:
+        0 0 0 0.35rem rgba(5, 5, 5, 0.12),
+        0 1.25rem 2.4rem rgba(0, 0, 0, 0.28);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .final-phone:hover,
+    .final-phone:focus-visible {
+      transform: translateY(-2px);
+      background: #121212;
+      box-shadow:
+        0 0 0 0.35rem rgba(255, 255, 255, 0.13),
+        0 1.45rem 2.7rem rgba(0, 0, 0, 0.34);
+    }
+
+    .final-phone .phone-gate-number {
+      width: 100%;
+      color: #ffffff;
+      text-shadow: 0 0.08rem 0.3rem rgba(0, 0, 0, 0.45);
     }
 
     .site-footer {
@@ -1003,7 +1028,7 @@
         <div class="hero-copy">
           <p class="kicker">Служба эвакуации 24/7</p>
           <h1>Эвакуатор Донецк ДНР<span class="cursor" aria-hidden="true"></span></h1>
-          <p class="hero-lead">Быстрый выезд по Донецку и всей ДНР. Один звонок диспетчеру, без онлайн-форм: аккуратно погрузим исправный или повреждённый автомобиль и заранее озвучим стоимость.</p>
+          <p class="hero-lead">Быстрый выезд по Донецку и всей ДНР. Один прямой звонок без онлайн-форм: аккуратно погрузим исправный или повреждённый автомобиль и заранее озвучим стоимость.</p>
           <div class="hero-actions">
             <button type="button" class="btn btn-primary phone-gate js-phone-gate" data-phone-gate="true" data-phone-label="call">Позвонить<span class="phone-gate-status" aria-live="polite"></span></button>
             <a class="btn btn-secondary" href="#services">Смотреть услуги</a>
@@ -1065,7 +1090,7 @@
         <div class="section-head">
           <p class="kicker">Почему мы</p>
           <h2>Почему выбирают нас</h2>
-          <p>Сервис построен вокруг скорости, прямого звонка и понятной коммуникации с диспетчером.</p>
+          <p>Сервис построен вокруг скорости, прямого звонка и понятной коммуникации по делу.</p>
         </div>
 
         <div class="why-row">
@@ -1155,7 +1180,7 @@
           <article class="timeline-item">
             <span class="timeline-num">02</span>
             <div class="timeline-copy">
-              <h3>Диспетчер считает стоимость</h3>
+              <h3>Стоимость по телефону</h3>
               <p>Озвучиваем ориентир до выезда, без сюрпризов после погрузки.</p>
             </div>
           </article>
@@ -1196,7 +1221,7 @@
             <span>Пролетарский</span>
             <span>Петровский</span>
           </div>
-          <p>Если нужна эвакуация по Донецку, выезд в район города или перевозка по ДНР, звоните напрямую диспетчеру. Мы уточним точку подачи, состояние авто и подберём подходящую технику.</p>
+          <p>Если нужна эвакуация по Донецку, выезд в район города или перевозка по ДНР, звоните напрямую. Мы уточним точку подачи, состояние авто и подберём подходящую технику.</p>
         </div>
       </div>
     </section>
@@ -1232,8 +1257,8 @@
     <section id="cta" class="final-cta">
       <div class="wrap cta-inner">
         <p class="kicker">Нужен эвакуатор сейчас?</p>
-        <h2>Звоните диспетчеру</h2>
-        <button type="button" class="final-phone phone-gate js-phone-gate" data-phone-gate="true" data-phone-label="show">Показать номер<span class="phone-gate-status" aria-live="polite"></span></button>
+        <h2>Прямой звонок</h2>
+        <button type="button" class="final-phone phone-gate js-phone-gate" data-phone-gate="true" data-phone-label="show">Открыть номер<span class="phone-gate-status" aria-live="polite"></span></button>
       </div>
     </section>
   </main>
