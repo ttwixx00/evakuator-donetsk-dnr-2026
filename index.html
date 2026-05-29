@@ -557,6 +557,36 @@
       line-height: 1.6;
     }
 
+    .service-link {
+      display: inline-flex;
+      align-items: center;
+      width: max-content;
+      max-width: 100%;
+      margin-top: 0.85rem;
+      padding: 0.55rem 0.8rem;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text);
+      font-family: "Barlow Condensed", Arial, sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .service-link:hover,
+    .service-link:focus-visible {
+      transform: translateX(0.25rem);
+      border-color: var(--red);
+      background: rgba(255, 59, 31, 0.15);
+    }
+
+    .service-link::after {
+      content: "→";
+      margin-left: 0.55rem;
+      color: var(--red);
+    }
+
     .service-card {
       display: grid;
       grid-template-columns: 4.2rem minmax(0, 1fr);
@@ -1128,6 +1158,7 @@
             <div>
               <h3>Эвакуация легковых автомобилей</h3>
               <p>Перевозка авто с улицы, двора, парковки, трассы, сервиса или стоянки.</p>
+              <a class="service-link" href="evakuator-donetsk.html">Эвакуатор в Донецке</a>
             </div>
           </article>
           <article class="service-card">
@@ -1142,6 +1173,7 @@
             <div>
               <h3>Перевозка по городу и ДНР</h3>
               <p>Доставка автомобиля по Донецку, районам города и направлениям республики.</p>
+              <a class="service-link" href="evakuator-dnr.html">Эвакуатор по ДНР</a>
             </div>
           </article>
           <article class="service-card">
@@ -1149,6 +1181,7 @@
             <div>
               <h3>Перевозка спецтехники</h3>
               <p>Мини-погрузчики, квадроциклы, коммунальная и малая техника до 5 тонн.</p>
+              <a class="service-link" href="perevozka-spectehniki-dnr.html">Спецтехника</a>
             </div>
           </article>
           <article class="service-card">
@@ -1156,6 +1189,7 @@
             <div>
               <h3>Эвакуация после ДТП</h3>
               <p>Бережная погрузка повреждённых автомобилей и доставка по согласованному адресу.</p>
+              <a class="service-link" href="evakuator-posle-dtp-donetsk.html">После ДТП</a>
             </div>
           </article>
         </div>

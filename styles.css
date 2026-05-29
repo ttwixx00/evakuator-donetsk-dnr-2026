@@ -1291,6 +1291,147 @@ p {
   margin-top: 0.45rem;
 }
 
+body.seo-dark {
+  font-family: "Barlow", Arial, sans-serif;
+  color: #f0ede8;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    radial-gradient(circle at 82% 14%, rgba(255, 59, 31, 0.22), transparent 22rem),
+    #0a0a0a;
+  background-size: 8rem 8rem, 8rem 8rem, auto, auto;
+}
+
+body.seo-dark::before,
+body.seo-dark::after {
+  display: none;
+}
+
+.seo-dark .page-shell {
+  width: min(1180px, calc(100% - 2rem));
+}
+
+.seo-dark .site-header {
+  margin-top: 1rem;
+  border-radius: 0;
+  background: rgba(10, 10, 10, 0.88);
+  border: 1px solid rgba(255, 59, 31, 0.28);
+  box-shadow: 0 1.25rem 3rem rgba(0, 0, 0, 0.34);
+}
+
+.seo-dark .logo-mark {
+  display: inline-flex;
+  width: 3.7rem;
+  height: 3.7rem;
+  flex: 0 0 3.7rem;
+  overflow: hidden;
+  border: 1px solid rgba(255, 59, 31, 0.8);
+  border-radius: 0;
+  background: #ffffff;
+}
+
+.seo-dark .logo-kicker,
+.seo-dark .eyebrow {
+  color: #ff3b1f;
+  font-family: "Barlow Condensed", Arial, sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0;
+}
+
+.seo-dark .logo-title,
+.seo-dark .site-nav,
+.seo-dark .site-nav a,
+.seo-dark .site-footer a {
+  color: #f0ede8;
+}
+
+.seo-dark .service-page {
+  position: relative;
+  padding: clamp(2.5rem, 6vw, 5rem) 0 7rem;
+}
+
+.seo-dark .service-page::before {
+  content: "";
+  position: absolute;
+  inset: 4rem -8vw auto auto;
+  width: min(36rem, 70vw);
+  height: 13rem;
+  background: #ff3b1f;
+  opacity: 0.42;
+  transform: skewY(-7deg);
+  z-index: -1;
+}
+
+.seo-dark .service-page h1 {
+  max-width: 11ch;
+  color: #f0ede8;
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: clamp(4rem, 13vw, 9rem);
+  line-height: 0.83;
+  text-transform: uppercase;
+}
+
+.seo-dark .service-page-lead {
+  max-width: 48rem;
+  color: #b8b1aa;
+  font-size: 1.12rem;
+}
+
+.seo-dark .service-page-grid {
+  gap: 1.1rem;
+  margin-top: 2rem;
+}
+
+.seo-dark .service-page-card {
+  border-radius: 0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-left: 0.35rem solid #ff3b1f;
+  background: rgba(20, 20, 20, 0.94);
+  box-shadow: 0 1.5rem 3.5rem rgba(0, 0, 0, 0.28);
+}
+
+.seo-dark .service-page-card h2 {
+  color: #f0ede8;
+  font-family: "Barlow Condensed", Arial, sans-serif;
+  font-size: clamp(1.45rem, 2vw, 2rem);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.seo-dark .service-page-card p,
+.seo-dark .service-page-list {
+  color: #b8b1aa;
+}
+
+.seo-dark .service-page-list li::marker {
+  color: #ff3b1f;
+}
+
+.seo-dark .nav-call,
+.seo-dark .btn-primary,
+.seo-dark .phone-badge,
+.seo-dark .sticky-call {
+  border-radius: 0;
+  background: #ff3b1f;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 1rem 2.3rem rgba(255, 59, 31, 0.28);
+}
+
+.seo-dark .phone-badge {
+  background: #1e1e1e;
+  border-color: rgba(255, 59, 31, 0.68);
+}
+
+.seo-dark .phone-gate-number {
+  color: #ffffff;
+}
+
+.seo-dark .sticky-call {
+  display: inline-flex;
+  align-items: center;
+}
+
 .sticky-call {
   display: none;
   position: fixed;
